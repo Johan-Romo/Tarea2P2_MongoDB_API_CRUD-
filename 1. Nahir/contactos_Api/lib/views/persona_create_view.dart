@@ -21,8 +21,19 @@ class _PersonaCreateViewState extends State<PersonaCreateView> {
 
       try {
         Persona nuevaPersona = await _controller.crearPersona(persona); // Llama al controlador
+
+        // Mostrar Snackbar de éxito
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Contacto creado con éxito'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
         Navigator.pop(context, nuevaPersona);
       } catch (e) {
+        // Mostrar cuadro de diálogo de error
         showDialog(
           context: context,
           builder: (context) => AlertDialog(

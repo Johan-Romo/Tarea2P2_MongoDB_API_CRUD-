@@ -34,7 +34,7 @@ class _PersonaListViewState extends State<PersonaListView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar Eliminación'),
-          content: Text('¿Estás seguro de que deseas eliminar esta contacto?'),
+          content: Text('¿Estás seguro de que deseas eliminar este contacto?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(), // Cancelar acción
@@ -44,22 +44,35 @@ class _PersonaListViewState extends State<PersonaListView> {
               onPressed: () async {
                 Navigator.of(context).pop(); // Cierra el diálogo
                 try {
-                  await _controller.eliminarPersona(id);
+                  await _controller.eliminarPersona(id); // Asegúrate de que sea await
                   _recargarPersonas(); // Refresca la lista después de eliminar
+
+                  // Mostrar Snackbar de éxito
+                  if (mounted) { // Verifica que el widget esté montado
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Contacto eliminado con éxito'),
+                        backgroundColor: Colors.green,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 } catch (e) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Error'),
-                      content: Text('No se pudo eliminar la persona.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
+                  if (mounted) { // Verificación adicional
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Error'),
+                        content: Text('No se pudo eliminar la persona.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }
               },
               child: Text('Eliminar', style: TextStyle(color: colorPrimario)),
@@ -69,6 +82,7 @@ class _PersonaListViewState extends State<PersonaListView> {
       },
     );
   }
+
 
   // Método para agregar una nueva persona
   void _agregarPersona() async {

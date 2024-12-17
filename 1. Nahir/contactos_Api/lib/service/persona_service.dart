@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../models/persona.dart';
 
 class PersonaService {
-  static const String _baseUrl = 'http://localhost:5000/api/personas';
+  static const String _baseUrl = 'http://192.168.1.125:5000/api/personas';
 
   // Obtener todas las personas
   Future<List<Persona>> obtenerPersonas() async {

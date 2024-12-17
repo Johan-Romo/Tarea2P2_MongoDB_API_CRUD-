@@ -38,6 +38,15 @@ class _PersonaEditViewState extends State<PersonaEditView> {
 
       try {
         Persona personaActualizada = await _controller.actualizarPersona(persona.id, persona); // Usar el controlador
+        // Mostrar Snackbar de éxito
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Contacto actualizado con éxito'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        // Regresar con la persona actualizada
         Navigator.pop(context, personaActualizada);
       } catch (e) {
         showDialog(
